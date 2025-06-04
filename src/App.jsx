@@ -1,35 +1,27 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import CadastroForm from './components/CadastroForm'
+import UserList from './components/UserList'
+import Navigation from './components/Navigation'
+import PageWrapper from './components/PageWrapper'
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [tela, setTela] = useState('cadastro')
+  const [usuarios, setUsuarios] = useState([])
+
+  function adicionarUsuario(usuario) {
+    setUsuarios([...usuarios, usuario])
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <PageWrapper>
+      <h1>Gerenciamento de Usuários</h1>
+      <Navigation onNavigate={setTela} />
+
+      {tela === 'cadastro' ? (
+        <CadastroForm onCadastrar={adicionarUsuario} />
+      ) : (
+        <UserList usuarios={usuarios} />
+      )}
+    </PageWrapper>
   )
 }
-
-export default App
